@@ -241,7 +241,7 @@ window.addEventListener("DOMContentLoaded", function(){
 		
 		
 		//Remove listener from submit button.
-		submit1.removeEventListener("click", storeData);
+		submit1.unbind("click", storeData);
 		
 		//Change submit value to edit
 		//Found helpful code for button at: http://www.permadi.com/tutorial/jsInnerHTMLDOM/index.html
@@ -249,7 +249,7 @@ window.addEventListener("DOMContentLoaded", function(){
 		var editSubmit = elId("submit");
 		
 		//Save key value in this function as property of editSubmit, use that value when save edited data.
-		editSubmit.addEventListener("click", validate);
+		editSubmit.bind("click", validate);
 		editSubmit.key = this.key;
 	}
 	
@@ -287,11 +287,9 @@ window.addEventListener("DOMContentLoaded", function(){
 	errMsg = elId("errors");
 	
 	//Set Link & Submit Click Events
-	var displayLink = elId("displayData");
-	displayLink.addEventListener("click", getData);
-	var clearLink = elId("clear");
-	clearLink.addEventListener("click", clearLocal);
-	var submit1 = elId("submit");
-	submit1.addEventListener("click", validator);
+	$('#displayData').bind("click", getData);
+	$('#clear').bind("click", clearLocal);
+	$('#submit').bind("click", validator);
+
 	
 });
