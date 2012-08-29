@@ -177,7 +177,7 @@ window.addEventListener("DOMContentLoaded", function(){
 			for(var i = 0, j = message. length; i < j; i++){
 				var txt = document.createElement("li");
 				txt.innerHTML = message[i];
-				errMsg.appendChild(txt);
+				errMsg.append(txt);
 			}
 		e.preventDefault();
 		return false;	
@@ -283,14 +283,11 @@ window.addEventListener("DOMContentLoaded", function(){
 	//Variable defaults
 	var priorityGroup = ["--Choose Priority Level--","High","Medium","Low"];
 	var whichCategoryValue;
-	errMsg = elId("errors");
+	errMsg = $('#errors');
 	
 	//Set Link & Submit Click Events
-	var displayLink = elId("displayData");
-	displayLink.addEventListener("click", getData);
-	var clearLink = elId("clear");
-	clearLink.addEventListener("click", clearLocal);
-	var submit1 = elId("submit");
-	submit1.addEventListener("click", validator);
+	$('#displayData').bind('click', getData);
+	$('#clear').bind('click', clearLocal);
+	$('#submit').bind('click', validator);
 	
 });
