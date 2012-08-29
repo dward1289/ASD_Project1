@@ -22,15 +22,15 @@ window.addEventListener("DOMContentLoaded", function(){
 	var toggleContr = function (n) {
 		switch(n) {
 			case "on":
-				elId("taskForm").style.display = "none";
-				elId("clear").style.display = "inline";
-				elId("displayData").style.display = "none";
+				$('#taskForm').css("display", "none");
+				$('#clear').css("display", "inline");
+				$('#displayData').css("display", "none");
 				break;
 			case "off":
-				elId("taskForm").style.display = "block";
-				elId("clear").style.display = "inline";
-				elId("displayData").style.display = "inline";
-				elId("items").style.display = "none";
+				$('#taskForm').css("display", "block");
+				$('#clear').css("display", "inline");
+				$('#displayData').css("display", "inline");
+				$('#items').css("display", "none")
 				
 				break;
 			default:
