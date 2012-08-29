@@ -1,6 +1,10 @@
 //Wait until the DOM is ready
 window.addEventListener("DOMContentLoaded", function(){
 
+var validator = function () {
+	$('#taskForm').validate();
+	}
+	
 	//getElementById function
 	var elId = function (n) {
 		var theElement = document.getElementById(n);
@@ -130,62 +134,6 @@ window.addEventListener("DOMContentLoaded", function(){
 	}
 	
 	
-	var validator = function (e) {
-		//Define elements
-		var getPriority = elId("priorities");
-		var getNot = elId("taskName");
-		var getStart = elId("taskDate");
-		var getEnd = elId("taskEnd");
-		
-		//Reset error messages
-		errMsg.innerHTML = "";
-		getPriority.style.border = "1px solid black";
-		getNot.style.border = "1px solid black";
-		getStart.style.border = "1px solid black";
-		getEnd.style.border = "1px solid black";
-
-
-		//Error messages array
-		var message = [];
-		
-		//Priority validate
-		if(getPriority.value === "--Choose Priority Level--") {
-			var priorityError = "Please select priority level.".fontcolor("red").bold();
-			getPriority.style.border = "2px solid red";
-			message.push(priorityError);
-		}
-		//Name of Task validate
-		if(getNot.value === "") {
-			var notError = "Please enter the name of task.".fontcolor("red").bold();
-			getNot.style.border = "2px solid red";
-			message.push(notError);
-		}
-		//Start date validate
-		if(getStart.value === "") {
-			var startError = "Please select a start date.".fontcolor("red").bold();
-			getStart.style.border = "2px solid red";
-			message.push(startError);
-		}
-		//End date validate
-		if(getEnd.value === "") {
-			var endError = "Please select an ending date.".fontcolor("red").bold();
-			getEnd.style.border = "2px solid red";
-			message.push(endError);
-		}
-		//Explains errors
-		if(message.length >=1) {
-			for(var i = 0, j = message. length; i < j; i++){
-				var txt = document.createElement("li");
-				txt.innerHTML = message[i];
-				errMsg.append(txt);
-			}
-		e.preventDefault();
-		return false;	
-		}
-		else{
-			storeData(this.key);
-			}		
-	}
 	
 	//Make edit and delete buttons for each stored item
 	var makeItemLinks = function (key, linksLi) {
@@ -240,15 +188,15 @@ window.addEventListener("DOMContentLoaded", function(){
 		
 		
 		//Remove listener from submit button.
-		submit1.removeEventListener("click", storeData);
+		$('#submit').unbind("click", storeData);
 		
 		//Change submit value to edit
 		//Found helpful code for button at: http://www.permadi.com/tutorial/jsInnerHTMLDOM/index.html
-		elId("submit").value = "Edit Task";
-		var editSubmit = elId("submit");
+		$('#submit').val("Edit Task");
+		var editSubmit = $('#submit');
 		
 		//Save key value in this function as property of editSubmit, use that value when save edited data.
-		editSubmit.addEventListener("click", validate);
+		editSubmit.bind("click", validator);
 		editSubmit.key = this.key;
 	}
 	
@@ -283,7 +231,6 @@ window.addEventListener("DOMContentLoaded", function(){
 	//Variable defaults
 	var priorityGroup = ["--Choose Priority Level--","High","Medium","Low"];
 	var whichCategoryValue;
-	errMsg = $('#errors');
 	
 	//Set Link & Submit Click Events
 	$('#displayData').bind('click', getData);
