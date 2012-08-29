@@ -7,22 +7,6 @@ window.addEventListener("DOMContentLoaded", function(){
 		return theElement;
 	}
 	
-
-	//Create select field element and populate with options.
-	var makeDrop = function (){
-		var formTag = document.getElementsByTagName("form"); //formTag is array
-		var selectList = elId("select");
-		var makeSelect = document.createElement("select");
-		makeSelect.setAttribute("id", "priorities");
-	for(var i=0, p=priorityGroup.length; i<p; i++) {
-		var makeOption = document.createElement("option");
-		var optText = priorityGroup[i];
-		makeOption.setAttribute("value", optText);
-		makeOption.innerHTML = optText;
-		makeSelect.appendChild(makeOption);
-		}
-		selectList.appendChild(makeSelect);
-	}
 	
 	//Find value of selected radio button.
 	var radiobox = function () {
@@ -39,11 +23,11 @@ window.addEventListener("DOMContentLoaded", function(){
 	var toggleContr = function (n) {
 		switch(n) {
 			case "on":
-				elId("displayData2").style.display = "none";
+				$('#displayData2').css("display", "none");
 				break;
 			case "off":
-				elId("displayData2").style.display = "inline";
-				elId("items").style.display = "none";
+				$('#displayData2').css("display", "inline");
+				$('#items').css("display", "none");
 				
 				break;
 			default:
@@ -74,19 +58,17 @@ window.addEventListener("DOMContentLoaded", function(){
 			}
 			
 		//Write data from local storage to browser
-		var makeDiv = document.createElement("div");
-		makeDiv.setAttribute("id", "items");
-		var makeList = document.createElement("ul");
-		makeList.setAttribute("id", "wholeList");
-		makeDiv.appendChild(makeList);
-		var container = document.getElementById ("seeHere");
-		container.appendChild(makeDiv);
-		elId("items").style = "block"
+		var makeDiv = $("<div> </div>").attr("id", "items");
+		var makeList = $("<ul> </ul>").attr("id", "wholeList");
+		makeDiv.append(makeList);
+		var container = $('#seeHere');
+		container.append(makeDiv);
+		$('#items').css("display", "block");
 		for(var i=0, len=localStorage.length; i<len; i++) {
 			var makeLi = document.createElement("li");
 			makeLi.setAttribute("id", "listing");
 			var linksLi = document.createElement("li");
-			makeList.appendChild(makeLi);
+			makeList.append(makeLi);
 			var key = localStorage.key(i);
 			var value = localStorage.getItem(key);
 		
@@ -94,6 +76,7 @@ window.addEventListener("DOMContentLoaded", function(){
 			var obj = JSON.parse(value);
 			var makeSubList = document.createElement("ul");
 			makeLi.appendChild(makeSubList);
+			getImage(obj.priorityLevel[1], makeSubList);
 			for(var r in obj) {
 				var makeSubLi = document.createElement("li");
 				makeSubList.appendChild(makeSubLi);
@@ -102,8 +85,9 @@ window.addEventListener("DOMContentLoaded", function(){
 				makeSubList.appendChild(linksLi);
 				
 				}
+				
 				//Create edit and delete buttons for items in local storage
-				makeItemLinks(localStorage.key(i), linksLi);
+				makeItemLinks(localStorage.key(i), linksLi); 
 		}
 	}
 	
@@ -115,6 +99,7 @@ window.addEventListener("DOMContentLoaded", function(){
 		var setSrc = newImg.setAttribute("src", "images/"+ catName + ".png");
 		imgLi.appendChild(newImg);
 	}
+	
 	
 	var autoFillData = function () {
 		//JSON object comes from json.js, storing it in local storage.
@@ -159,12 +144,12 @@ window.addEventListener("DOMContentLoaded", function(){
 		toggleContr("off");
 		
 		//Populate with current
-		elId("taskName").value = item.name[1];
-		elId("priorities").value = item.priorityLevel[1];
-		elId("taskDate").value = item.startUp[1];
-		elId("taskEnd").value = item.ending[1];
-		elId("alertWay").value = item.alertOption[1];
-		elId("notes").value = item.note[1];
+		$('#taskName').value = item.name[1];
+		$('#priorities').value = item.priorityLevel[1];
+		$('#taskDate').value = item.startUp[1];
+		$('#taskEnd').value = item.ending[1];
+		$('#alertWay').value = item.alertOption[1];
+		$('#notes').value = item.note[1];
 		if(item.category[1] == "Home") {
 			elId("home").setAttribute("checked", "checked");
 			}
@@ -190,8 +175,7 @@ window.addEventListener("DOMContentLoaded", function(){
 	}
 		
 	//Set Link & Submit Click Events
-	var displayLink2 = elId("displayData2");
-	displayLink2.addEventListener("click", getData);
+	$('#displayData2').bind("click", getData);
 	
 	var deleteItem = function () {
 		var ask = confirm("Are you sure you want to delete this task?");
