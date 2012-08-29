@@ -25,15 +25,15 @@ var validator = function () {
 	var toggleContr = function (n) {
 		switch(n) {
 			case "on":
-				elId("taskForm").style.display = "none";
-				elId("clear").style.display = "inline";
-				elId("displayData").style.display = "none";
+				$('#taskForm').css("display", "none");
+				$('#clear').css("display", "inline");
+				$('#displayData').css("display", "none");
 				break;
 			case "off":
-				elId("taskForm").style.display = "block";
-				elId("clear").style.display = "inline";
-				elId("displayData").style.display = "inline";
-				elId("items").style.display = "none";
+				$("taskForm").css("display", "block");
+				$("clear").css("display", "inline");
+				$("displayData").css("display", "inline");
+				$("items").css("display", "none");
 				
 				break;
 			default:
@@ -81,19 +81,17 @@ var validator = function () {
 			}
 			
 		//Write data from local storage to browser
-		var makeDiv = document.createElement("div");
-		makeDiv.setAttribute("id", "items");
-		var makeList = document.createElement("ul");
-		makeList.setAttribute("id", "wholeList");
-		makeDiv.appendChild(makeList);
-		var container = document.getElementById ("seeHere");
-		container.appendChild(makeDiv);
-		elId("items").style = "block"
+		var makeDiv = $("<div> </div>").attr("id", "items");
+		var makeList = $("<ul> </ul>").attr("id", "wholeList");
+		makeDiv.append(makeList);
+		var container = $('#seeHere');
+		container.append(makeDiv);
+		$('#items').css("display", "block");
 		for(var i=0, len=localStorage.length; i<len; i++) {
 			var makeLi = document.createElement("li");
 			makeLi.setAttribute("id", "listing");
 			var linksLi = document.createElement("li");
-			makeList.appendChild(makeLi);
+			makeList.append(makeLi);
 			var key = localStorage.key(i);
 			var value = localStorage.getItem(key);
 		
