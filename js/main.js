@@ -18,19 +18,18 @@ window.addEventListener("DOMContentLoaded", function(){
 		}
 	
 	
-	
 	var toggleContr = function (n) {
 		switch(n) {
 			case "on":
-				$('#taskForm').css("display", "none");
-				$('#clear').css("display", "inline");
-				$('#displayData').css("display", "none");
+				elId("taskForm").style.display = "none";
+				elId("clear").style.display = "inline";
+				elId("displayData").style.display = "none";
 				break;
 			case "off":
-				$('#taskForm').css("display", "block");
-				$('#clear').css("display", "inline");
-				$('#displayData').css("display", "inline");
-				$('#items').css("display", "none")
+				elId("taskForm").style.display = "block";
+				elId("clear").style.display = "inline";
+				elId("displayData").style.display = "inline";
+				elId("items").style.display = "none";
 				
 				break;
 			default:
@@ -54,13 +53,13 @@ window.addEventListener("DOMContentLoaded", function(){
 		//Object properties contain array w/from label and input value
 		radiobox();
 		var item = {};
-		item.name = ["Name of Task: ", elId("taskName").value];
+		item.name = ["Name of Task: ", $('#taskName').val()];
 		item.category = ["Category: ", whichCategoryValue];
-		item.priorityLevel = ["Priority: ", elId("priorities").value];
-		item.startUp = ["Starting Date of Task: ", elId("taskDate").value];
-		item.ending = ["Ending Date of Task: ", elId("taskEnd").value];
-		item.alertOption = ["Type of Alert: ", elId("alertWay").value];
-		item.note = ["Notes", elId("notes").value];
+		item.priorityLevel = ["Priority: ", $('#priorities').val()];
+		item.startUp = ["Starting Date of Task: ", $('#taskDate').val()];
+		item.ending = ["Ending Date of Task: ", $('#taskEnd').val()];
+		item.alertOption = ["Type of Alert: ", $('#alertWay').val()];
+		item.note = ["Notes", $('#notes').val()];
 	
 		//Save data into Local Storage: stringify to convert object to string
 		localStorage.setItem(id, JSON.stringify(item));		
@@ -241,7 +240,7 @@ window.addEventListener("DOMContentLoaded", function(){
 		
 		
 		//Remove listener from submit button.
-		submit1.unbind("click", storeData);
+		submit1.removeEventListener("click", storeData);
 		
 		//Change submit value to edit
 		//Found helpful code for button at: http://www.permadi.com/tutorial/jsInnerHTMLDOM/index.html
@@ -249,7 +248,7 @@ window.addEventListener("DOMContentLoaded", function(){
 		var editSubmit = elId("submit");
 		
 		//Save key value in this function as property of editSubmit, use that value when save edited data.
-		editSubmit.bind("click", validate);
+		editSubmit.addEventListener("click", validate);
 		editSubmit.key = this.key;
 	}
 	
@@ -287,9 +286,11 @@ window.addEventListener("DOMContentLoaded", function(){
 	errMsg = elId("errors");
 	
 	//Set Link & Submit Click Events
-	$('#displayData').bind("click", getData);
-	$('#clear').bind("click", clearLocal);
-	$('#submit').bind("click", validator);
-
+	var displayLink = elId("displayData");
+	displayLink.addEventListener("click", getData);
+	var clearLink = elId("clear");
+	clearLink.addEventListener("click", clearLocal);
+	var submit1 = elId("submit");
+	submit1.addEventListener("click", validator);
 	
 });
