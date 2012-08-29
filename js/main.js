@@ -168,12 +168,12 @@ var validator = function () {
 		toggleContr("off");
 		
 		//Populate with current
-		elId("taskName").value = item.name[1];
-		elId("priorities").value = item.priorityLevel[1];
-		elId("taskDate").value = item.startUp[1];
-		elId("taskEnd").value = item.ending[1];
-		elId("alertWay").value = item.alertOption[1];
-		elId("notes").value = item.note[1];
+		$('#taskName').value = item.name[1];
+		$('#priorities').value = item.priorityLevel[1];
+		$('#taskDate').value = item.startUp[1];
+		$('#taskEnd').value = item.ending[1];
+		$('#alertWay').value = item.alertOption[1];
+		$('#notes').value = item.note[1];
 		if(item.category[1] == "Home") {
 			elId("home").setAttribute("checked", "checked");
 			}
@@ -191,11 +191,10 @@ var validator = function () {
 		//Change submit value to edit
 		//Found helpful code for button at: http://www.permadi.com/tutorial/jsInnerHTMLDOM/index.html
 		$('#submit').val("Edit Task");
-		var editSubmit = $('#submit');
 		
 		//Save key value in this function as property of editSubmit, use that value when save edited data.
-		editSubmit.bind("click", validator);
-		editSubmit.key = this.key;
+		$('#submit').bind("click", validator);
+		$('#submit').key = this.key;
 	}
 	
 	
