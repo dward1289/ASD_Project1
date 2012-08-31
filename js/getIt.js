@@ -58,31 +58,29 @@ window.addEventListener("DOMContentLoaded", function(){
 			}
 			
 		//Write data from local storage to browser
-		var makeDiv = $("<div> </div>").attr("id", "items");
-		var makeList = $("<ul> </ul>").attr("id", "wholeList");
-		makeDiv.append(makeList);
-		var container = $('#seeHere');
-		container.append(makeDiv);
+		var makeDiv = $("<div></div>").attr("id", "items");
+		var makeList = $("<ul></ul>").attr("id", "wholeList");
+		makeDiv.html(makeList);
+		$('#seeHere').html(makeDiv);
 		$('#items').css("display", "block");
 		for(var i=0, len=localStorage.length; i<len; i++) {
-			var makeLi = document.createElement("li");
-			makeLi.setAttribute("id", "listing");
-			var linksLi = document.createElement("li");
+			var makeLi = $("<li></li>").attr("id", "listing");
+			var linksLi = $("<li></li>");
 			makeList.append(makeLi);
 			var key = localStorage.key(i);
 			var value = localStorage.getItem(key);
 		
 		//Convert string from local to object
 			var obj = JSON.parse(value);
-			var makeSubList = document.createElement("ul");
-			makeLi.appendChild(makeSubList);
+			var makeSubList = $("<ul></ul>");
+			makeLi.append(makeSubList);
 			getImage(obj.priorityLevel[1], makeSubList);
 			for(var r in obj) {
-				var makeSubLi = document.createElement("li");
-				makeSubList.appendChild(makeSubLi);
+				var makeSubLi = $("<li></li>");
+				makeSubList.append(makeSubLi);
 				var optSubText = obj[r][0]+" "+obj[r][1];
-				makeSubLi.innerHTML = optSubText;
-				makeSubList.appendChild(linksLi);
+				makeSubLi.html(optSubText);
+				makeSubList.append(linksLi);
 				
 				}
 				
@@ -93,11 +91,10 @@ window.addEventListener("DOMContentLoaded", function(){
 	
 	//Image for categories
 	var getImage = function (catName, makeSubList) {
-		var imgLi = document.createElement("li");
-		makeSubList.appendChild(imgLi);
-		var newImg = document.createElement("img");
-		var setSrc = newImg.setAttribute("src", "images/"+ catName + ".png");
-		imgLi.appendChild(newImg);
+			var imgLi = $("<li></li>");
+		makeSubList.html(imgLi);
+		var newImg = $("<img></img>").attr("src", "images/"+ catName + ".png");
+		imgLi.html(newImg);
 	}
 	
 	
@@ -112,27 +109,22 @@ window.addEventListener("DOMContentLoaded", function(){
 	//Make edit and delete buttons for each stored item
 	var makeItemLinks = function (key, linksLi) {
 		//add edit single item link
-		var edit = document.createElement('a');
-		edit.href = "#";
+		var edit = $("<a></a>").attr("href", "#").text("Edit Task");
 		edit.key = key;
-		var editTxt = "Edit task";
-		edit.addEventListener("click", editItem);
-		edit.innerHTML= editTxt;
-		linksLi.appendChild(edit);
+		edit.on("click", editItem);
+		linksLi.html(edit);
 		
-		//add line break
-		var breakIt = document.createElement("br");
-		linksLi.appendChild(breakIt);
+			//add line break
+		var breakIt = $("<br></br>");
+		linksLi.html(breakIt);
 		
 		//add delete single link
-		var deleteIt = document.createElement('a');
-		deleteIt.href = "#";
+		var deleteIt = $("<a></a>").attr("href", "#").text("Delete Task");
 		deleteIt.key = key;
-		var deleteTxt = "Delete Task";
 		
-		deleteIt.addEventListener("click", deleteItem);
-		deleteIt.innerHTML= deleteTxt;
-		linksLi.appendChild(deleteIt);
+		deleteIt.on("click", deleteItem);
+		linksLi.html(deleteIt);
+
 		}
 	
 	var editItem = function () {
@@ -143,39 +135,34 @@ window.addEventListener("DOMContentLoaded", function(){
 		//Show form again
 		toggleContr("off");
 		
-		//Populate with current
-		$('#taskName').value = item.name[1];
-		$('#priorities').value = item.priorityLevel[1];
-		$('#taskDate').value = item.startUp[1];
-		$('#taskEnd').value = item.ending[1];
-		$('#alertWay').value = item.alertOption[1];
-		$('#notes').value = item.note[1];
+		//populate form
+		$('#taskName').val(item.name[1]);
+		$('#priorities').val(item.priorityLevel[1]);
+		$('#taskDate').val(item.startUp[1]);
+		$('#taskEnd').val(item.ending[1]);
+		$('#alertWay').val(item.alertOption[1]);
+		$('#notes').val(item.note[1]);
 		if(item.category[1] == "Home") {
-			elId("home").setAttribute("checked", "checked");
+			$('#home').attr("checked", "checked");
 			}
 		if(item.category[1] == "Business") {
-			elId("business").setAttribute("checked", "checked");
+			$('#business').attr("checked", "checked");
 					}
 		if(item.category[1] == "School") {
-			elId("school").setAttribute("checked", "checked");
+			$('#school').attr("checked", "checked");
 					}
 		
 		
-		//Remove listener from submit button.
-		submit1.removeEventListener("click", storeData);
+
 		
-		//Change submit value to edit
-		//Found helpful code for button at: http://www.permadi.com/tutorial/jsInnerHTMLDOM/index.html
-		elId("submit").childNodes[0].nodeValue = "Edit Task";
-		var editSubmit = elId("submit");
-		
-		//Save key value in this function as property of editSubmit, use that value when save edited data.
-		editSubmit.addEventListener("click", validate);
-		editSubmit.key = this.key;
+		var editSubmit = $('#submit');
+		editSubmit.on("click", validate);
+		editSubmit.key = this.key;	
 	}
 		
 	//Set Link & Submit Click Events
-	$('#displayData2').bind("click", getData);
+	var displayLink2 = $('#displayData2');
+	displayLink2.on("click", getData);
 	
 	var deleteItem = function () {
 		var ask = confirm("Are you sure you want to delete this task?");

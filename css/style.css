@@ -82,6 +82,9 @@ background: #ffe494;
 box-shadow: 10px 10px 5px #000000;
 margin-bottom:25px;}
 
+label.error{
+color: #FF0000;
+}
 
 #trueTxt{
 margin-left: 10px;
